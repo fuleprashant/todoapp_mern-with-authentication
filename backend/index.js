@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import todoRoute from "./routes/todo.route.js";
+import userRouter from "./routes/users.route.js";
 
 dotenv.config();
 const app = express();
@@ -14,6 +15,7 @@ mongoose
 
 app.use(express.json());
 app.use("/todo", todoRoute);
+app.use("/user", userRouter);
 
 app.use("/", (req, res) => {
   res.send("the server has been started");

@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import todoRoute from "./routes/todo.route.js";
 
 dotenv.config();
 const app = express();
@@ -11,9 +12,12 @@ mongoose
   .then(() => console.log("The database is connected"))
   .catch((err) => console.log("The error is occured", err));
 
+app.use(express.json());
+app.use("/todo", todoRoute);
+
 app.use("/", (req, res) => {
-  res.send("The server has been start now on the http//:localhost:4000");
+  res.send("the server has been started");
 });
 app.listen(port, () => {
-  console.log(`The server is start on the port ${port}`);
+  console.log(`The server is start on the port http://localhost:${port}`);
 });

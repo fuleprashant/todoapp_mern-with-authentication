@@ -1,9 +1,32 @@
 import React from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Home from "./components/Home";
+import Login from "./components/Login";
+import SignUp from "./components/SignUp";
+import PageNotFound from "./components/PageNotFound";
 
 const App = () => {
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Home />,
+    },
+    {
+      path: "/login",
+      element: <Login />,
+    },
+    {
+      path: "/sign-up",
+      element: <SignUp />,
+    },
+    {
+      path: "*",
+      element: <PageNotFound />,
+    },
+  ]);
   return (
-    <div className="text-xl bg-red-500 p-4 text-center">
-      This is the main Application
+    <div>
+      <RouterProvider router={router} />
     </div>
   );
 };

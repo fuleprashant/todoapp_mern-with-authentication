@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import todoRoute from "./routes/todo.route.js";
 import userRouter from "./routes/users.route.js";
+import cors from "cors";
 
 dotenv.config();
 const app = express();
@@ -14,6 +15,15 @@ mongoose
   .catch((err) => console.log("The error is occured", err));
 
 app.use(express.json());
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL, // Ensure this is the correct URL
+    credentials: true, // Fix this line
+    methods: "GET,POST,PUT,DELETE",
+    allowedHeaders: ["Content-Type"],
+  })
+);
+
 app.use("/todo", todoRoute);
 app.use("/user", userRouter);
 

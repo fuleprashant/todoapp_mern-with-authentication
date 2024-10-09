@@ -1,5 +1,6 @@
 import user from "../model/user.model.js";
 import { z } from "zod";
+import bcrypt from "bcryptjs";
 
 // create a avlidation for the object
 const userSchema = z.object({
@@ -32,11 +33,12 @@ export const SignUp = async (req, res) => {
     }
 
     const User = await user.findOne({ email });
-    if (!User) {
+    if (User) {
       return res.status(400).json({ message: "User already registerd" });
     }
 
-    const newUser = new user({ username, email, password });
+    const hashPassword = await bcrypt.hash(password, 10);
+    const newUser = new user({ username, email, password: hashPassword });
     await newUser.save();
     if (newUser) {
       res.status(201).json({ message: "User registered succesfully", newUser });

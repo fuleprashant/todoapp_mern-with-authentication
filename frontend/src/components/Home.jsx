@@ -79,13 +79,11 @@ const Home = () => {
 
   const deleteTodo = async (id) => {
     try {
-      await axios.delete(`http://localhost:4000/todo/update/${id}`, {
+      await axios.delete(`http://localhost:4000/todo/delete/${id}`, {
         withCredentials: true,
       });
-      setTodo(
-        todo,
-        filter((t) => t._id !== id)
-      );
+
+      setTodo(todo.filter((t) => t._id !== id)); // Filter out the deleted todo
     } catch (error) {
       setError("Failed to delete the todo ");
     }
@@ -119,7 +117,10 @@ const Home = () => {
                 />
                 <span className="text-gray-500">{tod.text}</span>
               </div>
-              <button className="text-red-500 hover:text-red-800 duration-300">
+              <button
+                className="text-red-500 hover:text-red-800 duration-300"
+                onClick={() => deleteTodo(tod._id)}
+              >
                 Delete
               </button>
             </li>

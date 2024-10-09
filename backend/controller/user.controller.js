@@ -1,6 +1,7 @@
 import user from "../model/user.model.js";
 import { z } from "zod";
 import bcrypt from "bcryptjs";
+import { generateTokenAndSaveInCookies } from "../jwt/token.js";
 
 // create a avlidation for the object
 const userSchema = z.object({
@@ -9,6 +10,7 @@ const userSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters long"),
 });
 
+// sign-up fucntion
 export const SignUp = async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -40,8 +42,11 @@ export const SignUp = async (req, res) => {
     const hashPassword = await bcrypt.hash(password, 10);
     const newUser = new user({ username, email, password: hashPassword });
     await newUser.save();
+    const token = await generateTokenAndSaveInCookies(newUser._id, res);
     if (newUser) {
-      res.status(201).json({ message: "User registered succesfully", newUser });
+      res
+        .status(201)
+        .json({ message: "User registered succesfully", newUser, token });
     }
   } catch (error) {
     console.log(error);
@@ -49,6 +54,7 @@ export const SignUp = async (req, res) => {
   }
 };
 
+// login function
 export const Login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -61,13 +67,18 @@ export const Login = async (req, res) => {
     if (!User || !(await bcrypt.compare(password, User.password))) {
       return res.status(400).json({ message: "Invalid email or password" });
     }
-    return res.status(200).json({ message: "User loggedin Succesfully", user });
+    const token = await generateTokenAndSaveInCookies(User._id, res);
+
+    return res
+      .status(200)
+      .json({ message: "User loggedin Succesfully", user, token });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Error to login the user" });
   }
 };
 
+// log-out function
 export const Logout = (req, res) => {
   console.log("this is Logout function");
 };

@@ -27,9 +27,6 @@ app.use(
 app.use("/todo", todoRoute);
 app.use("/user", userRouter);
 
-app.use("/", (req, res) => {
-  res.send("the server has been started");
-});
 app.listen(port, () => {
   console.log(`The server is start on the port http://localhost:${port}`);
 });

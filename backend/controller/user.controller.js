@@ -1,13 +1,38 @@
 import user from "../model/user.model.js";
+import { z } from "zod";
+
+// create a avlidation for the object
+const userSchema = z.object({
+  username: z.string().min(3, { message: "username atleat 3 character long" }),
+  email: z.string().email(4, "USer already exist"),
+  password: z.string().min(6, "Password must be at least 6 characters long"),
+});
 
 export const SignUp = async (req, res) => {
   try {
     const { username, email, password } = req.body;
-    // console.log(username);
-    // console.log(email);
-    // console.log(password);
+
+    // throw this message if the the all fields are not fullfill
+    if ((!username, !email, !password)) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    // when get all fields data store it in the variable name as a validation
+
+    const validation = userSchema.safeParse({ username, email, password });
+
+    /// if validation error is that throw error that how email password and username works for that code is below
+
+    if (!validation.success) {
+      // return res.status(400).json({ errors: validation.error.errors });
+
+      // with upper code we get the error in errors to solve that prblem we use map method for that code is below
+      const errorMessage = validation.error.errors.map((err) => err.message);
+      return res.status(400).json({ errors: errorMessage });
+    }
+
     const User = await user.findOne({ email });
-    if (!user) {
+    if (!User) {
       return res.status(400).json({ message: "User already registerd" });
     }
 

@@ -4,6 +4,7 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import PageNotFound from "./components/PageNotFound";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -26,6 +27,7 @@ const App = () => {
   ]);
   return (
     <div>
+      <Toaster position="top-right" reverseOrder={false} />
       <RouterProvider router={router} />
     </div>
   );

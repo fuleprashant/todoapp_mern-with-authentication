@@ -89,8 +89,10 @@ const Home = () => {
       setError("Failed to delete the todo ");
     }
   };
+
+  const remainingTodos = todo.filter((tod) => !tod.completed).length;
   return (
-    <div className="bg-gray-100 max-w-lg lg:max-w-xl rounded-lg mx-auto">
+    <div className="bg-gray-100 max-w-lg lg:max-w-xl rounded-lg mx-auto mt-11">
       <h1 className="text-2xl font-semibold text-center mb-2 p-3">Todo app</h1>
       <div>
         <input
@@ -144,7 +146,7 @@ const Home = () => {
       </ul>
 
       <p className="mt-4 text-center  text-sm text-gray-700">
-        0 todo remaining
+        {remainingTodos} todo remaining
       </p>
       <button className="mt-6 px-4 py-2 bg-red-500 text-white roundex-md hover:bg-red-800 duration-500 mx-auto block">
         Logout

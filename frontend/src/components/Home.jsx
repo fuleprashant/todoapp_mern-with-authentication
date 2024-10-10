@@ -110,40 +110,49 @@ const Home = () => {
           Add
         </button>
       </div>
-      <ul className="space-y-2 m-10">
-        {todo.map((tod, index) => {
-          return (
-            <li
-              key={index}
-              className="flex items-center justify-between p-3 bg-gray-100 rounded-md"
-            >
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  className="mr-2"
-                  checked={tod.completed}
-                  onChange={() => updateTodo(tod._id)}
-                />
-                <span
-                  className={`${
-                    tod.completed
-                      ? "line-through text-gray-800 font-semibold"
-                      : ""
-                  }`}
-                >
-                  {tod.text}
-                </span>
-              </div>
-              <button
-                className="text-red-500 hover:text-red-800 duration-300"
-                onClick={() => deleteTodo(tod._id)}
+
+      {loading ? (
+        <div className="text-center justify-center">
+          <span className="text-gray-500">Loading....</span>
+        </div>
+      ) : error ? (
+        <div className="text-center text-red-500 font-semibold">{error}</div>
+      ) : (
+        <ul className="space-y-2 m-10">
+          {todo.map((tod, index) => {
+            return (
+              <li
+                key={index}
+                className="flex items-center justify-between p-3 bg-gray-100 rounded-md"
               >
-                Delete
-              </button>
-            </li>
-          );
-        })}
-      </ul>
+                <div className="flex items-center">
+                  <input
+                    type="checkbox"
+                    className="mr-2"
+                    checked={tod.completed}
+                    onChange={() => updateTodo(tod._id)}
+                  />
+                  <span
+                    className={`${
+                      tod.completed
+                        ? "line-through text-gray-800 font-semibold"
+                        : ""
+                    }`}
+                  >
+                    {tod.text}
+                  </span>
+                </div>
+                <button
+                  className="text-red-500 hover:text-red-800 duration-300"
+                  onClick={() => deleteTodo(tod._id)}
+                >
+                  Delete
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      )}
 
       <p className="mt-4 text-center  text-sm text-gray-700">
         {remainingTodos} todo remaining

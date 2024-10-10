@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import todoRoute from "./routes/todo.route.js";
 import userRouter from "./routes/users.route.js";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 const app = express();
@@ -15,6 +16,7 @@ mongoose
   .catch((err) => console.log("The error is occured", err));
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(
   cors({
     origin: process.env.FRONTEND_URL, // Ensure this is the correct URL

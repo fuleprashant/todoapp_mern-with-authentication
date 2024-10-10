@@ -25,6 +25,7 @@ const App = () => {
       element: <PageNotFound />,
     },
   ]);
+
   return (
     <div>
       <Toaster position="top-right" reverseOrder={false} />

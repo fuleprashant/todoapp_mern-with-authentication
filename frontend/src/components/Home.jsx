@@ -3,7 +3,7 @@ import axios, { Axios } from "axios";
 
 const Home = () => {
   const [todo, setTodo] = useState([]);
-  console.log(todo);
+  // console.log(todo);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [newTodo, setNewTodo] = useState("");
@@ -44,7 +44,8 @@ const Home = () => {
           withCredentials: true,
         }
       );
-      setTodo([...todo, responce.data]);
+      // console.log("the response is created", responce);
+      setTodo([...todo, responce.data.newTodo]);
       setNewTodo("");
     } catch (error) {
       console.log(error);
@@ -96,8 +97,14 @@ const Home = () => {
           type="text"
           placeholder="Add a new todo"
           className="flex-grow p-2 border rounded-r-md focus:outline-none ml-28"
+          onChange={(e) => setNewTodo(e.target.value)}
+          value={newTodo}
+          onKeyPress={(e) => e.key === "Enter" && todocreate()}
         />
-        <button className="bg-blue-600 border rounded-r-md text-white px-4 py-2 hover:bg-blue-900 duration-300">
+        <button
+          className="bg-blue-600 border rounded-r-md text-white px-4 py-2 hover:bg-blue-900 duration-300"
+          onClick={todocreate}
+        >
           Add
         </button>
       </div>
@@ -115,7 +122,15 @@ const Home = () => {
                   checked={tod.completed}
                   onChange={() => updateTodo(tod._id)}
                 />
-                <span className="text-gray-500">{tod.text}</span>
+                <span
+                  className={`${
+                    tod.completed
+                      ? "line-through text-gray-800 font-semibold"
+                      : ""
+                  }`}
+                >
+                  {tod.text}
+                </span>
               </div>
               <button
                 className="text-red-500 hover:text-red-800 duration-300"

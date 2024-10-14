@@ -95,7 +95,9 @@ const Home = () => {
 
   const Logout = async () => {
     try {
-      const responce = await axios.get("http://localhost:4000/user/logout");
+      const responce = await axios.get("http://localhost:4000/user/logout", {
+        withCredentials: true, // backend ma thi avata cookie na responce ne aode access kari sakiye te mate mukvu jaroori chhe
+      });
       // console.log(responce.data.message);
       toast.success(responce.data.message);
       // remove the token from the localstorage and session.. too to remove that user

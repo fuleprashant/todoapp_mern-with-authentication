@@ -1,24 +1,28 @@
+
 import axios from "axios";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom"; // Assuming you are using react-router for navigation
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  const handleRegister = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+
+    // Client-side validation (optional, for better UX)
+    if (!formData.email || !formData.password) {
+      toast.error("All fields are required");
+      return;
+    }
     try {
       const response = await axios.post(
-        "http://localhost:4000/user/login", // Corrected endpoint
-
+        "http://localhost:4000/user/login",
         formData,
-
         {
           withCredentials: true,
           headers: {
@@ -27,36 +31,33 @@ const Login = () => {
         }
       );
 
-      console.log(response.data);
-      // Navigate to login page on successful sign-up
-      navigate("/");
-      toast.success(response.data.message || "user logger succesfully");
-      localStorage.setItem("jwt", response.data.token);
+      // Show success message and navigate to homepage
+      toast.success(response.data.message || "Logged in successfully");
+      localStorage.setItem("jwt", response.data.token); // Save JWT token
+      navigate("/"); // Redirect to homepage
     } catch (error) {
-      // Check if error response exists
+      // Check if error has a response and display the appropriate error message
       if (error.response) {
-        // If the error has a response, set the error message
-        toast.error(error.response.data.errors);
+        const errorMessage = error.response.data.errors || "Login failed";
+        toast.error(errorMessage); // Display the error using toast
       } else {
-        // Otherwise, set a generic error message
-        setErrorMessage("An error occurred. Please try again later.");
+        // Handle any other errors, like network issues
+        toast.error("An error occurred. Please try again later.");
       }
-      console.log(error);
+      console.error(error); // Log error details for debugging
     }
   };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    console.log(formData);
-    setErrorMessage("");
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-4 text-center"> Log In</h1>
+        <h1 className="text-2xl font-bold mb-4 text-center">Log In</h1>
 
-        <form className="space-y-4" onSubmit={handleRegister}>
+        <form className="space-y-4" onSubmit={handleLogin}>
           <div>
             <label
               htmlFor="email"
@@ -97,14 +98,14 @@ const Login = () => {
             type="submit"
             className="w-full bg-blue-600 text-white font-semibold py-2 rounded-md mt-4 hover:bg-blue-700"
           >
-            Sign Up
+            Log In
           </button>
         </form>
 
         <p className="mt-4 text-sm text-center text-gray-600">
-          neveer registered? yet{" "}
+          Never registered?{" "}
           <Link to="/sign-up" className="text-blue-600 hover:underline">
-            register
+            Register
           </Link>
         </p>
       </div>

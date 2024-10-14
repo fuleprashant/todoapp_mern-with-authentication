@@ -46,7 +46,7 @@ const Login = () => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    // Clear error message when user starts typing
+    console.log(formData);
     setErrorMessage("");
   };
 

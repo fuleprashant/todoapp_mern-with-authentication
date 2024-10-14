@@ -30,7 +30,8 @@ const Login = () => {
       console.log(response.data);
       // Navigate to login page on successful sign-up
       navigate("/");
-      toast.success(response.data.message || "user registered succesfully");
+      toast.success(response.data.message || "user logger succesfully");
+      localStorage.setItem("jwt", response.data.token);
     } catch (error) {
       // Check if error response exists
       if (error.response) {

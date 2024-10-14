@@ -5,11 +5,13 @@ import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import PageNotFound from "./components/PageNotFound";
 import { Toaster } from "react-hot-toast";
+import { CheckAuth } from "./Authentication/CheckAuth";
 
 const App = () => {
   const router = createBrowserRouter([
     {
       path: "/",
+      loader: CheckAuth,
       element: <Home />,
     },
     {

@@ -99,7 +99,8 @@ const Home = () => {
       // console.log(responce.data.message);
       toast.success(responce.data.message);
       // remove the token from the localstorage and session.. too to remove that user
-      navigate("/");
+      localStorage.removeItem("jwt");
+      navigate("/login");
     } catch (error) {
       setError("Failed to logout the todo ");
       toast.error;

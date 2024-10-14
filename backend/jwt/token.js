@@ -5,7 +5,7 @@ export const generateTokenAndSaveInCookies = async (userId, res) => {
   const token = jwt.sign({ userId }, process.env.JWT_SECRET_KEY, {
     expiresIn: "10d",
   });
-  console.log(token);
+
   // Setting cookie with token
   res.cookie("jwt", token, {
     httpOnly: true,

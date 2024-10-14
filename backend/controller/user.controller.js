@@ -16,7 +16,7 @@ export const SignUp = async (req, res) => {
     const { username, email, password } = req.body;
 
     // throw this message if the the all fields are not fullfill
-    if ((!username, !email, !password)) {
+    if (!username || !email || !password) {
       return res.status(400).json({ message: "All fields are required" });
     }
 

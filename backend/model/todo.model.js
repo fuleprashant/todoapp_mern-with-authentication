@@ -9,6 +9,11 @@ const userSchemas = new Schema({
     type: Boolean,
     required: true,
   },
+  user:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"user", // refering the user model to connect to users collection in MongoDB
+    required:true
+  }
 });
 
 const Todo = mongoose.model("Todo", userSchemas);
